@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:PackageManager.ViewModels"
+             xmlns:models="using:PackageManager.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="PackageManager.Views.MainPageView"
+             x:DataType="vm:MainPageViewModel">
+  
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*,*">
+
+      <Button Grid.Row="0" Margin="10" 
+        Click="OpenButton_Clicked">
+        <!-- Command="{Binding Open}" -->
+          Open
+      </Button>
+
+      <TreeView Grid.Row="1" ItemsSource="{Binding FirmwareSources}" 
+        SelectedItem="{Binding SelectedItem}">
+        <TreeView.DataTemplates>
+          <TreeDataTemplate DataType="models:FirmwareSource" ItemsSource="{Binding Firmware}">
+            <Grid>
+              <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+              <Button HorizontalAlignment="Right" Margin="10,0"
+                Click="AddFirmwareButton_Clicked">
+                  Add Firmware
+              </Button>
+            </Grid>
+          </TreeDataTemplate>
+          <TreeDataTemplate DataType="models:Firmware" ItemsSource="{Binding Packages}">
+            <TextBlock Text="{Binding ModelName}"/>
+          </TreeDataTemplate>
+          <DataTemplate DataType="models:Package">
+            <TextBlock Text="{Binding VersionName}"/>
+          </DataTemplate>
+        </TreeView.DataTemplates>
+      </TreeView>
+
+      <UserControl Grid.Row="1" Grid.Column="1" Content="{Binding FwViewModel}"/>
+    
+    </Grid>
+  
+</UserControl>
